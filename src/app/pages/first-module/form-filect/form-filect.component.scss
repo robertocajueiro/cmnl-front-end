@@ -1,0 +1,72 @@
+@import "src/app/styles/colors";
+@import "src/app/styles/font";
+@import "src/app/styles/variables";
+
+.mat-card {
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.mat-card-content {
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.arquivos-container {
+  padding: 0.5mm;
+}
+
+.mat-form-field {
+  margin-left: 1px;
+  margin-right: 11px;
+}
+
+.id-full-width {
+  width: 23%;
+}
+
+.dtinclusao-full-width {
+  width: 23%;
+}
+
+.dtinicial-full-width {
+  width: 23%;
+  margin-left: 20px;
+}
+
+.dtfinal-full-width {
+  width: 23%;
+}
+
+.endereco-full-width {
+  width: 48%;
+}
+
+.filial-full-width {
+  width: 48%;
+}
+
+.doc1-full-width {
+  width: 32%;
+}
+
+.doc2-full-width {
+  width: 32%;
+}
+
+.doc3-full-width {
+  width: 32%;
+}
+
+td {
+  padding-right: 8px;
+}
+
+.generate__button{
+  background-color: $cred;
+  color: white;
+}

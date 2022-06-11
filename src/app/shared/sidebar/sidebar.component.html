@@ -1,0 +1,23 @@
+<mat-list>
+    <mat-list-item routerLink="/home" routerLinkActive="active">
+      <mat-icon>home</mat-icon> Home
+    </mat-list-item>
+</mat-list>
+
+<mat-list>
+  <button mat-button [matMenuTriggerFor]="deposito"><mat-icon>local_shipping
+  </mat-icon>Deposito</button>
+  <mat-menu #deposito="matMenu">
+    <button mat-menu-item routerLink="/list-file" routerLinkActive="active">Listar Arquivos</button>
+  </mat-menu>
+</mat-list>
+
+<mat-list>
+    <button mat-button [matMenuTriggerFor]="contabil"><mat-icon>work</mat-icon>Contabilidade</button>
+    <mat-menu #contabil="matMenu">
+      <button mat-menu-item routerLink="/form-filect" routerLinkActive="active">Cadastro de Arquivos</button>
+      <button mat-menu-item routerLink="/list-filect" routerLinkActive="active">Listar Arquivos</button>
+    </mat-menu>
+
+</mat-list>
+

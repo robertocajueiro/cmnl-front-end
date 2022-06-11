@@ -1,0 +1,163 @@
+    <div class="tables-wrapper">
+        <mat-card class="chart">
+            <mat-card-title class="chart__header">
+                <h5 class="material-table__title">Filtros</h5>
+              <button class="settings-button" mat-mini-fab [matMenuTriggerFor]="settings">
+                <mat-icon class="settings-button__icon">more_vert</mat-icon>
+              </button>
+              <div class="settings-menu">
+                <mat-menu #settings="matMenu" xPosition="before">
+                  <button class="settings-menu__item" (click)="download()" mat-menu-item>Download</button>
+                </mat-menu>
+              </div>
+            </mat-card-title>
+
+            <mat-card-content class="chart__content">
+                <div #chart class="chart__content-item">
+                    <div>
+                        <div class="example-container" style="float: left; margin-left:10px">
+                            <mat-form-field hintLabel="exemplo: 00/00/0000" color="green" appearance="fill">
+                            <mat-label>Data inicial</mat-label>
+                            <input matInput #input name="dtInicial" mask="00/00/0000" [(ngModel)]="dtInicial" maxlength="10" placeholder="">
+                            </mat-form-field>
+                        </div>
+                        <div class="example-container" style="float: left; margin-left:30px">
+                            <mat-form-field hintLabel="" color="green" appearance="fill">
+                            <mat-label>Data final</mat-label>
+                            <input matInput #input name="dtFinal" mask="00/00/0000" [(ngModel)]="dtFinal" maxlength="10" placeholder="">
+                            </mat-form-field>
+                        </div>
+                        <div class="example-container" style="float: left; margin-left:30px">
+                            <mat-form-field hintLabel="" color="green" appearance="fill">
+                            <mat-label>Número entrega</mat-label>
+                            <input matInput #input name="numEntrega" mask="0*" [(ngModel)]="numEntrega" maxlength="10" placeholder="">
+                            </mat-form-field>
+                        </div>
+                        <div style="float: left; margin-left:30px; padding-top: 10px;">
+                            <button class="generate__button" (click)="generate()" mat-raised-button>Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="employee-table-wrapper">
+            <div *ngIf="isLoading" style="margin-left: 15px; margin-right: 15px;">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+            <mat-card-title class="employee-table-wrapper__header">
+                <div class="employee-table-wrapper__search">
+                  <div class="employee-table-wrapper__icon-wrapper">
+                    <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+                  </div>
+                  <input matInput class="employee-table-wrapper__search-input" name="search" [(ngModel)]="search"
+                  (keyup)="applyFilter()">
+                  <button class="employee-table-wrapper__button" mat-mini-fab (click)="cleanFilters()">
+                    <mat-icon class="employee-table-wrapper__icon">close</mat-icon>
+                  </button>
+                </div>
+            </mat-card-title>
+            <mat-card-content class="employee-table__content">
+                <table mat-table [dataSource]="dataSource" class="employee-table__table" matSort >
+                    <ng-container matColumnDef="select">
+                        <th class="employee-table__table-checkbox" mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox color="primary"
+                            (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            ></mat-checkbox>
+                        </th>
+                        <td class="employee-table__table-checkbox" mat-cell *matCellDef="let row">
+                            <mat-checkbox color="primary"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)"
+                            >
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="id">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>ID</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.id}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orderCode">
+                        <th class="employee-table__table-header" mat-sort-header mat-header-cell sortActionDescription="Sort by orderCode" *matHeaderCellDef>Pedido</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.orderCode}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="volume">
+                        <th class="employee-table__table-header" mat-sort-header mat-header-cell sortActionDescription="Sort by volume" *matHeaderCellDef>Volume</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.volume}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orderVolumetry">
+                        <th class="employee-table__table-header" mat-sort-header mat-header-cell sortActionDescription="Sort by orderVolumetry" *matHeaderCellDef>Volumetria pedido</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.orderVolumetry}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="deliveryNumber">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Número entrega</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.deliveryNumber}}</td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="productCode">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Cod. produto</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.productCode}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="productDescription">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Descrição</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element"
+                            [matTooltip]="tooltipProduct(element)">{{productDescription(element.productDescription)}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="inclusionDate">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Dt inclusão</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.inclusionDate | date: 'dd/MM/yyyy' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="invoiceDate">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Dt entrega</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.invoiceDate | date: 'dd/MM/yyyy'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="clientName">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Cliente</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element">{{element.clientName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="printed">
+                        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef>Impresso</th>
+                        <td class="employee-table__table-body" mat-cell *matCellDef="let element" [matTooltip]="printed(element)" >
+                            <mat-chip-list>
+                                <mat-chip class="printed-true" *ngIf="element.printed"></mat-chip>
+                                <mat-chip class="printed-false" *ngIf="!element.printed"></mat-chip>
+                            </mat-chip-list>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="download">
+                        <th mat-header-cell  *matHeaderCellDef ></th>
+                        <td mat-cell *matCellDef="let row">
+                            <button class="employee-table-wrapper__button" mat-mini-fab (click)="downloadRow(row)">
+                                <mat-icon class="employee-table-wrapper__icon">save_alt</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+            <mat-paginator
+                [length]="totalElements"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                [showFirstLastButtons]="true"
+                (page)="pageChanged($event)" >
+            </mat-paginator>
+        </mat-card>
+
+        <!-- [pageIndex]="currentPage"    -->
+    </div>
+    <app-footer></app-footer>

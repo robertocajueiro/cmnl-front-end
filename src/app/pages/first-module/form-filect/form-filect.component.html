@@ -1,0 +1,117 @@
+<form #filectForm="ngForm" (ngSubmit)="onSubmit()">
+
+  <div class="arquivos-container">
+
+    <mat-card-content>
+      <mat-card>
+        <mat-card-title>Cadastro de Arquivos</mat-card-title>
+        <mat-card-subtitle>Contabilidade</mat-card-subtitle>
+      </mat-card>
+    </mat-card-content>
+
+    <!-- 1º linha -->
+    <mat-card-content>
+      <mat-card>
+        <mat-card-subtitle>  Informações de ID e Data* | Cadastro Data inicial e final</mat-card-subtitle>
+    <mat-form-field class="id-full-width"appearance="fill">
+    <mat-label>ID:</mat-label>
+      <input matInput disabled placeholder="Número ID"
+      [ngModel]="arquivo.id_caixa" name="id_caixa">
+    </mat-form-field>
+
+    <mat-form-field class="dtinclusao-full-width" appearance="fill">
+        <mat-label>Data Inclusão:</mat-label>
+          <input matInput mask="00/00/0000" disabled placeholder="Data inclusão"
+          [ngModel]="arquivo.data_inclusao" name="data_inclusao">
+    </mat-form-field>
+
+
+        <!-- Data inicial -->
+    <mat-form-field class="dtinicial-full-width" appearance="fill">
+      <input matInput mask="00/00/0000"
+        [(ngModel)]="arquivo.periodo_ini" name="periodo_ini">
+        <mat-label>Período Inicial:</mat-label>
+    </mat-form-field>
+
+    <!-- Data final -->
+    <mat-form-field class="dtfinal-full-width" appearance="fill">
+      <input matInput mask="00/00/0000"
+        [(ngModel)]="arquivo.periodo_fim" name="periodo_fim">
+        <mat-label>Período Final:</mat-label>
+    </mat-form-field>
+    </mat-card>
+    </mat-card-content>
+
+
+    </div>
+      <!-- 2º linha -->
+    <mat-card-content>
+      <mat-card>
+        <mat-card-subtitle>Cadastro Endereço | Filiais e Documentos. </mat-card-subtitle>
+    <p>
+      <mat-form-field class="endereco-full-width" appearance="fill">
+        <mat-label>Endereço</mat-label>
+        <input matInput placeholder="Ex. A.01.001"
+        [(ngModel)]="arquivo.endereco" name="endereco">
+      </mat-form-field>
+
+      <mat-form-field class="filial-full-width" appearance="fill">
+        <mat-label>Filiais</mat-label>
+        <input matInput placeholder="Ex. 01-06-07"
+        [(ngModel)]="arquivo.filiais" name="filiais">
+      </mat-form-field>
+    </p>
+
+    <!-- 3º Linha -->
+    <p>
+      <mat-form-field class="doc1-full-width" appearance="fill">
+        <mat-label>Documentos 01</mat-label>
+        <input matInput placeholder="Ex. Documentos" [(ngModel)]="arquivo.doc_01" name="doc_01">
+      </mat-form-field>
+
+      <mat-form-field class="doc2-full-width" appearance="fill">
+        <mat-label>Documentos 02</mat-label>
+        <input matInput placeholder="Ex. Documentos" [(ngModel)]="arquivo.doc_02" name="doc_02">
+      </mat-form-field>
+
+      <mat-form-field class="doc3-full-width" appearance="fill">
+        <mat-label>Documentos 03</mat-label>
+        <input matInput placeholder="Ex. Documentos" [(ngModel)]="arquivo.doc_03" name="doc_03">
+      </mat-form-field>
+    </p>
+    </mat-card>
+    </mat-card-content>
+
+
+
+
+
+
+    <!-- Botão -->
+    <div>
+    <mat-card-content>
+      <mat-card>
+        <mat-card-actions>
+          <button class="generate__button" mat-raised-button type="submit">Salvar</button>
+          <button class="generate__button" mat-raised-button>Limpar</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-card-content>
+    </div>
+  </form>
+
+  <app-footer></app-footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
